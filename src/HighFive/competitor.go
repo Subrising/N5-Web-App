@@ -1,9 +1,9 @@
 package HighFive
 
 import (
-	"fmt"
-	"go/types"
-	"google.golang.org/api/appengine/v1"
+	//"fmt"
+	//"go/types"
+	//"google.golang.org/api/appengine/v1"
 	"time"
 )
 
@@ -23,4 +23,3 @@ type Meeting struct {
 	Race []Race
 }
 
-func
