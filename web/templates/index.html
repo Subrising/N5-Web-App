@@ -55,6 +55,7 @@
 <script src="../js/jquery.fileupload-ui.js"></script>
 <!-- The main application script -->
 <script src="../js/main.js"></script>
+<script src="../js/jquery-3.2.1.js"></script>
 <!-- The XDomainRequest Transport is included for cross-domain file deletion for IE 8 and IE 9 -->
 <!--[if (gte IE 8)&(lt IE 10)]>
 <script src="../js/cors/jquery.xdr-transport.js"></script>
@@ -139,6 +140,18 @@
         </div>
     </div>
 </form>
+<div id="result"></div>
+<div class="container">
+    <table id="raceTable" border="1" >
+        <tr>
+            <th width="5%">S.no</th>
+            <th width="20%">Location</th>
+            <th width="20%">Competitors</th>
+            <th width="30%" class="time">Closing Time</th>
+        </tr>
+    </table>
+</div>
+<div class="timer">00:00:00</div>
 <script>
     $('#fileupload').submit(
         function( e ) {
@@ -156,22 +169,85 @@
         }
     );
 
-   /* jQuery(document).ready(function() {
-        console.log("In here");
-        jQuery('#ajax_btn').click( function(e){
-            $.ajax({
-                url: '/receive',
-                method: 'POST',
-                data : { ajax_post_data: 'hello'},
-                success : function (data) {
-                    console.log(data);
-                    console.log(data.Message);
-//                    $('#result').html(data);
-                },
-            });
+/*    $( document ).ready(function(){
+        //Perform Ajax request.
+        $.ajax({
+            url: '/receive',
+            type: 'GET',
+            success: function (data){
+                //If the success function is execute,
+                //then the Ajax request was successful.
+                //Add the data we received in our Ajax
+                //request to the "content" div.
+                $('#content').html(data);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                var errorMsg = 'Ajax request failed: ' + xhr.responseText;
+                $('#content').html(errorMsg);
+            }
         });
-    })
+    });
 */
+
+    $( document ).ready(function(){
+        //Perform Ajax request.
+        $.ajax({
+            url: '/receive',
+            type: 'GET',
+            dataType: 'JSON',
+            success: function (response){
+                console.log(response);
+                //var len = response.length;
+                    var id = 1;
+                    var location = response["location"];
+                    console.log(location);
+                    var compNum = response["competitors"].length;
+                    console.log(compNum);
+                    var close = response["close"];
+                    console.log(close);
+
+                var $timeHolders = $('.time');
+
+                var counter = 10;
+                var newYearCountdown = setInterval(function(){
+                    console.log(counter);
+                    counter--
+                    if (counter === 0) {
+                        console.log("HAPPY NEW YEAR!!");
+                        clearInterval(newYearCountdown);
+                    }
+                }, 1000);
+
+                    var tr_str = "<tr>" +
+                            "<td align='center'>" + (id+1) + "</td>" +
+                            "<td align='center'>" + location + "</td>" +
+                            "<td align='center'>" + compNum + "</td>" +
+                            "<td align='center'>" + newYearCountdown + "</td>" +
+                            "</tr>";
+
+                    $("#raceTable").append(tr_str);
+
+                var timerH = 3;
+                var timerM = 0;
+                var timerS = 8;
+                var timer = (timerH * 60 * 60 * 1000) + (timerM * 60 * 1000) + (timerS * 1000);
+
+                var interval = setInterval(function() {
+                    timer -= 1000;
+
+                    var H  = Math.floor((timer % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    var HH = (H < 9 ? "0" : "") + H;
+                    var M  = Math.floor((timer % (1000 * 60 * 60)) / (1000 * 60));
+                    var MM = (M < 9 ? "0" : "") + M;
+                    var S  = Math.floor((timer % (1000 * 60)) / 1000);
+                    var SS = (S < 9 ? "0" : "") + S;
+
+                    $('.timer').text(HH + ":" + MM + ":" + SS);
+                    if (timer === 0) clearInterval(interval);
+                }, 1000);
+
+             },
+        })});
 </script>
 <script>
     jQuery('#searchbtn').click( function(e){
@@ -184,8 +260,8 @@
             data : { search_key: eNameData},
             success : function (data) {
                 console.log(data);
-                console.log(data.Message);
-//                    $('#result').html(data);
+                console.log(data.message.length);
+                    $('#result').html(data.message[2]);
             },
         });
     });

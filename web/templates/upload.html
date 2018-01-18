@@ -5,6 +5,23 @@
     <title>Title</title>
 </head>
 <body>
+<script>
+    jQuery(document).ready(function() {
+    console.log("In here");
+    jQuery('#ajax_btn').click( function(e){
+        $.ajax({
+            url: '/receive',
+            method: 'POST',
+            data : { ajax_post_data: 'hello'},
+            success : function (data) {
+                console.log(data);
+                console.log(data.Message);
+//                    $('#result').html(data);
+            },
+        });
+    });
+})
+</script>
 
 </body>
 </html>

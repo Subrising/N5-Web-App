@@ -33,7 +33,7 @@ func StartGin(five HighFive.HighFive) {
 
 	router.GET("/getFive", mid.GetFive(five))
 	router.POST("/search", mid.SendResults(five))
-	router.POST("/receive", mid.ReceiveAjax)
+	router.GET("/receive", mid.ReceiveAjax)
 
 	router.Run("localhost:8080")
 }

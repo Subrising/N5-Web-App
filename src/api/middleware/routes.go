@@ -16,6 +16,22 @@ import (
 //"path/filepath"
 )
 
+type Competitor struct {
+	PosNum int `json:"position"`
+	Type   string `json:"type"`
+}
+
+type Race struct {
+	Location string `json:"location"`
+	Competitors []Competitor `json:"competitors"`
+	Close time.Time `json:"close"`
+}
+
+type Meeting struct {
+	Location string `json:"location"`
+	Race []Race `json:"races"`
+}
+
 // Loads index upload page
 func Index(c * gin.Context) {
 	c.HTML(200, "index.html", gin.H{
@@ -84,16 +100,29 @@ type ResponseData struct {
 	Message string `json:"message"`
 }
 
+type FiveData struct {
+	Message []string `json:"message"`
+}
+
 func ReceiveAjax(c * gin.Context) {
 	form := c.PostForm("ajax_post_data")
 	log.Println(form)
 	fmt.Println("Receive ajax post data string ", form)
 
-	resp := ResponseData{
-		Message: "This is a test response",
+	comp1 := Competitor{
+		PosNum: 1,
+		Type: "Greyhound",
 	}
 
-	c.JSON(200, resp)
+	compArr := []Competitor{comp1}
+
+	race1 := Race {
+		Location : "Location 1",
+		Competitors: compArr,
+		Close: time.Now(),
+	}
+
+	c.JSON(200, race1)
 }
 
 func SendResults(five HighFive.HighFive) func (c *gin.Context) {
@@ -102,11 +131,10 @@ func SendResults(five HighFive.HighFive) func (c *gin.Context) {
 		log.Println("In send results")
 		log.Println(form)
 		fmt.Println("Receive get query ", form)
-
-		resp := ResponseData{
-			Message: "This is a test get",
+		strArr := []string{"Hello1", "Hello2", "Hello3"}
+		resp := FiveData {
+			Message: strArr,
 		}
-
 		c.JSON(200, resp)
 	}
 }
