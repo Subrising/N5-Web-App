@@ -21,6 +21,7 @@ func ConfigRuntime() {
 	fmt.Printf("Running with %d CPUs\n", nuCPU)
 }
 
+
 // Sets up API files and routing functions
 func StartGin(five HighFive.HighFive) {
 	gin.SetMode(gin.DebugMode)

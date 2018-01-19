@@ -1,19 +1,20 @@
 package middleware
 
 import (
-"time"
+	"time"
 
-"github.com/gin-gonic/gin"
-"models"
-"net/http"
-"HighFive"
-"fmt"
-//"os"
-"log"
-//"io"
-//"strconv"
-//"math/rand"
-//"path/filepath"
+	"github.com/gin-gonic/gin"
+	"models"
+	"net/http"
+	"HighFive"
+	"fmt"
+	//"os"
+	"log"
+	//"io"
+	//"strconv"
+	//"math/rand"
+	//"path/filepath"
+	"math/rand"
 )
 
 type Competitor struct {
@@ -24,7 +25,7 @@ type Competitor struct {
 type Race struct {
 	Location string `json:"location"`
 	Competitors []Competitor `json:"competitors"`
-	Close time.Time `json:"close"`
+	Close int `json:"close"`
 }
 
 type Meeting struct {
@@ -109,6 +110,10 @@ func ReceiveAjax(c * gin.Context) {
 	log.Println(form)
 	fmt.Println("Receive ajax post data string ", form)
 
+	firstClose := time.Now();
+	nanos := firstClose.UnixNano()
+	millis := int (nanos / 1000000) + (rand.Intn(100000) + 1000)
+
 	comp1 := Competitor{
 		PosNum: 1,
 		Type: "Greyhound",
@@ -119,10 +124,27 @@ func ReceiveAjax(c * gin.Context) {
 	race1 := Race {
 		Location : "Location 1",
 		Competitors: compArr,
-		Close: time.Now(),
+		Close: millis,
 	}
 
-	c.JSON(200, race1)
+	secondClose := time.Now();
+	nanos = secondClose.UnixNano()
+	millis = int (nanos / 1000000) + (rand.Intn(100000) + 1000)
+
+	race2 := Race {
+		Location : "Location 2",
+		Competitors: compArr,
+		Close: millis,
+	}
+
+	races := []Race{race1, race2}
+
+	meets := Meeting {
+		Location : "Gold Coast",
+		Race : races,
+	}
+
+	c.JSON(200, meets)
 }
 
 func SendResults(five HighFive.HighFive) func (c *gin.Context) {
