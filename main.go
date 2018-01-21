@@ -3,10 +3,10 @@ package main
 //go:generate sqlboiler postgres
 
 import (
-"database/sql"
-"fmt"
-"log"
-"api"
+	"database/sql"
+	"fmt"
+	"log"
+	"api"
 	_ "github.com/lib/pq"
 	"HighFive"
 )
@@ -35,7 +35,7 @@ func runFive() {
 	if err != nil {
 		panic(err)
 	}
-
+	five.InitData()
 	api.StartAPI(*five)
 }
 

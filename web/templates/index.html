@@ -153,42 +153,6 @@
     </table>
 <div class="timer">00:00:00</div>
 <script>
-    $('#fileupload').submit(
-            function( e ) {
-                $.ajax( {
-                    url: '/upload',
-                    type: 'POST',
-                    data: new FormData( this ),
-                    processData: false,
-                    contentType: false,
-                    success: function(result){
-                        console.log(result);
-                    }
-                } );
-                e.preventDefault();
-            }
-    );
-
-    /*    $( document ).ready(function(){
-            //Perform Ajax request.
-            $.ajax({
-                url: '/receive',
-                type: 'GET',
-                success: function (data){
-                    //If the success function is execute,
-                    //then the Ajax request was successful.
-                    //Add the data we received in our Ajax
-                    //request to the "content" div.
-                    $('#content').html(data);
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    var errorMsg = 'Ajax request failed: ' + xhr.responseText;
-                    $('#content').html(errorMsg);
-                }
-            });
-        });
-    */
-
     $( document ).ready(function(){
         //Perform Ajax request.
         $.ajax({
@@ -203,10 +167,10 @@
                 for (var i = 0; i < len; i++){
 
                     var id = i;
-                    var location = races[i]["location"];
+                    var location = response["location"];
                     console.log(location);
-                    var compNum = races[i]["competitors"].length;
-                    console.log(compNum);
+                   // var compNum = races[i]["competitors"].length;
+                    //console.log(compNum);
                     var close = races[i]["close"];
                     console.log(close);
 
@@ -214,44 +178,13 @@
 
                     close = Math.floor(close / 1000);
 
-                    var $timeHolders = $('.time');
-
-
                     var tr_str = "<tr id='faded'>" +
-                            "<td align='center'>" + (id+1) + "</td>" +
+                            "<td align='center' id='race_" + id + "'><a href='/races/" + races[i]["id"] + "'>" + id + "</a></td>" +
                             "<td align='center'>" + location + "</td>" +
-                            "<td align='center'>" + compNum + "</td>" + "" +
+                            "<td align='center'></td>" + "" +
                             "<td align='center' class='timer'>" + close + "</td>" + "</tr>";
 
                     $("#raceTable").append(tr_str);
-
-
-
-                  /*  var closingTime = $('<td>').text(close);
-
-                    setInterval( function ()
-                    {
-                        close = close - 1;
-                        $(closingTime).text(close);
-
-                        if (close <= 0)
-                        {
-                            $(closingTime).fadeOut();
-                        }
-                    }, 1000);
-
-                    console.log(closingTime);
-
-                    tr_str = tr_str + closingTime.html;
-                    console.log(tr_str);
-                    //
-
-
-                    //  var timerH = 3;
-                    //  var timerM = 0;
-                    //  var timerS = 8;
-
-                    $("#raceTable").append(closingTime);*/
                 }
                 setTimers();
             }
@@ -264,9 +197,9 @@ function setTimers() {
 
         // Update the count down every 1 second
 
-        var x = setInterval(
+        setInterval(
                 function () {
-                    for (var i = 1, row; row = table.rows[i], i < 3; i++) {
+                    for (var i = 1, row; row = table.rows[i], i < table.rows.length; i++) {
 
                         var endDate = row.cells[3];
                         //var countDownDate = new Date(endDate.innerHTML.replace(/-/g, "/")).getTime();
@@ -284,64 +217,10 @@ function setTimers() {
                         if (distance < 0) {
                             //endDate.innerText = "Bid closed";
                             row.remove();
-                            clearInterval(x);
+                           // clearInterval(x);
                         }
                     }}, 1000);
 }
-
-
-   /* var table = document.getElementsByClassName("timer");
-    console.log(table.length);
-    console.log("outside loop");
-    for (var i = 0 ;i<table.length ; i++) {
-        console.log("in loop");
-        //iterate through rows
-        //rows would be accessed using the "row" variable assigned in the for loop
-        //row = table[i]
-        var endDate = table[i];
-        // console.log();
-        var countDownDate = Math.floor(parseInt(endDate.textContent) / 1000)
-        console.log("CDD = " + countDownDate);
-
-        //var countDown = row.cells[5];
-        // Update the count down every 1 second
-
-        setInterval( function () {
-            countDownDate--;
-            // Display the result in the element
-            $('table[i]').text(countDownDate);
-            console.log("setinterval = " + endDate.textContent);
-            //If the count down is finished, write some text
-            if (countDownDate < 0) {
-                // clearInterval(x);
-                endDate.innerHTML = "Bid closed";
-            }
-        }, 1000);
-    }
-
-   var timer = Math.floor((Math.random() * 100000) + 5000);;
-
-    setInterval(function() {
-        timer -= 1000;
-
-        var H  = Math.floor((timer % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        var HH = (H < 9 ? "0" : "") + H;
-        var M  = Math.floor((timer % (1000 * 60 * 60)) / (1000 * 60));
-        var MM = (M < 9 ? "0" : "") + M;
-        var S  = Math.floor((timer % (1000 * 60)) / 1000);
-        var SS = (S < 9 ? "0" : "") + S;
-
-        $('.timer').text(HH + ":" + MM + ":" + SS);
-        if (timer === 0) {
-
-            //clearInterval(interval);
-            var fID = "faded" + id;
-            $("#faded").fadeOut();
-            $(document).getElementByID(fID).fadeOut();
-        }
-    }, 1000);
-
-*/
 </script>
 <script>
     jQuery('#searchbtn').click( function(e){

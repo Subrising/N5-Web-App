@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"time"
+//	"time"
 
 	"github.com/gin-gonic/gin"
 	"models"
@@ -11,21 +11,27 @@ import (
 	//"os"
 	"log"
 	//"io"
-	//"strconv"
+	"strconv"
 	//"math/rand"
 	//"path/filepath"
-	"math/rand"
+	//"math/rand"
+	"github.com/volatiletech/sqlboiler/queries/qm"
+	"time"
+	"github.com/satori/go.uuid"
 )
 
 type Competitor struct {
 	PosNum int `json:"position"`
 	Type   string `json:"type"`
+	Name string `json:"name"`
 }
 
 type Race struct {
 	Location string `json:"location"`
 	Competitors []Competitor `json:"competitors"`
 	Close int `json:"close"`
+	RaceType string `json:"racetype"`
+	RaceID string `json:"id"`
 }
 
 type Meeting struct {
@@ -38,54 +44,6 @@ func Index(c * gin.Context) {
 	c.HTML(200, "index.html", gin.H{
 	})
 }
-
-// Loads test index upload page
-func Basic(c *gin.Context) {
-	c.HTML(200, "index.tmpl.html", gin.H{
-	})
-}
-
-func roomGET(c *gin.Context) {
-	roomid := c.Param("roomid")
-	nick := c.Query("nick")
-	if len(nick) < 2 {
-		nick = ""
-	}
-	if len(nick) > 13 {
-		nick = nick[0:12] + "..."
-	}
-	c.HTML(200, "room_login.templ.html", gin.H{
-		"roomid":    roomid,
-		"nick":      nick,
-		"timestamp": time.Now().Unix(),
-	})
-}
-/*
-func roomPOST(c *gin.Context) {
-	roomid := c.Param("roomid")
-	nick := c.Query("nick")
-	message := c.PostForm("message")
-	message = strings.TrimSpace(message)
-
-	validMessage := len(message) > 1 && len(message) < 200
-	validNick := len(nick) > 1 && len(nick) < 14
-	if !validMessage || !validNick {
-		c.JSON(400, gin.H{
-			"status": "failed",
-			"error":  "the message or nickname is too long",
-		})
-		return
-	}
-
-	post := gin.H{
-		"nick":    html.EscapeString(nick),
-		"message": html.EscapeString(message),
-	}
-	messages.Add("inbound", 1)
-	room(roomid).Submit(post)
-	c.JSON(200, post)
-}
-*/
 
 // Test page to return changed values in index page
 func GetFive(five HighFive.HighFive) func(c *gin.Context) {
@@ -105,46 +63,85 @@ type FiveData struct {
 	Message []string `json:"message"`
 }
 
-func ReceiveAjax(c * gin.Context) {
-	form := c.PostForm("ajax_post_data")
-	log.Println(form)
-	fmt.Println("Receive ajax post data string ", form)
+func ReceiveAjax(five HighFive.HighFive) func (c * gin.Context) {
+	return func(c *gin.Context) {
+		form := c.PostForm("ajax_post_data")
+		log.Println(form)
+		fmt.Println("Receive ajax post data string ", form)
 
-	firstClose := time.Now();
-	nanos := firstClose.UnixNano()
-	millis := int (nanos / 1000000) + (rand.Intn(100000) + 1000)
+		//var races []&models.Race
+		//races, err := models.Races().All()
 
-	comp1 := Competitor{
-		PosNum: 1,
-		Type: "Greyhound",
+		now := time.Now().UTC()
+
+		//timeAdd := time.Second * 60 * 1
+
+		//now.Add(timeAdd)
+		log.Println("Current time = ", now)
+
+		allRaces, err := models.Races(five.DB, qm.Where("closing_time > ?", time.Now().UTC()), qm.OrderBy("closing_time"), qm.Limit(5)).All()
+
+		log.Println("Query works")
+
+		if err != nil {
+			c.JSON(200, "No races")
+			return
+		}
+
+
+		// THIS IS HOW YOU FUCKING GET THE DATA FROM THE ROWSS!!! DO NOT FORGET!!!!
+		log.Println(allRaces[0].RaceID)
+		log.Println(allRaces[0].RaceType)
+		log.Println(allRaces[0].ClosingTime)
+
+		/* firstClose := time.Now();
+		nanos := firstClose.UnixNano()
+		millis := int(nanos/1000000) + (rand.Intn(100000) + 1000)
+
+		comp1 := Competitor{
+			PosNum: 1,
+			Type:   "Greyhound",
+		}
+
+		compArr := []Competitor{comp1}
+
+		race1 := Race{
+			Location:    "Location 1",
+			Competitors: compArr,
+			Close:       millis,
+		}
+
+		secondClose := time.Now();
+		nanos = secondClose.UnixNano()
+		millis = int(nanos/1000000) + (rand.Intn(100000) + 1000)
+
+		race2 := Race{
+			Location:    "Location 2",
+			Competitors: compArr,
+			Close:       millis,
+		}*/
+
+		var races []Race
+
+		for i := 0; i < 5; i++ {
+			nanos := allRaces[i].ClosingTime.UnixNano()
+			millis := int(nanos/1000000)
+
+			race1 := Race{
+				RaceType: allRaces[i].RaceType,
+				Close:       millis,
+				RaceID: allRaces[i].RaceID,
+			}
+			races = append(races, race1)
+		}
+
+		meets := Meeting{
+			Location: "Gold Coast",
+			Race:     races,
+		}
+
+		c.JSON(200, meets)
 	}
-
-	compArr := []Competitor{comp1}
-
-	race1 := Race {
-		Location : "Location 1",
-		Competitors: compArr,
-		Close: millis,
-	}
-
-	secondClose := time.Now();
-	nanos = secondClose.UnixNano()
-	millis = int (nanos / 1000000) + (rand.Intn(100000) + 1000)
-
-	race2 := Race {
-		Location : "Location 2",
-		Competitors: compArr,
-		Close: millis,
-	}
-
-	races := []Race{race1, race2}
-
-	meets := Meeting {
-		Location : "Gold Coast",
-		Race : races,
-	}
-
-	c.JSON(200, meets)
 }
 
 func SendResults(five HighFive.HighFive) func (c *gin.Context) {
@@ -158,6 +155,75 @@ func SendResults(five HighFive.HighFive) func (c *gin.Context) {
 			Message: strArr,
 		}
 		c.JSON(200, resp)
+	}
+}
+
+func ShowRace(c * gin.Context) {
+	id := c.Param("id")
+	log.Println(id)
+	c.HTML(200, "race_data.html", gin.H{})
+}
+
+func GetRace(five HighFive.HighFive) func (c *gin.Context) {
+	return func(c *gin.Context) {
+		form, _ := c.GetPostForm("search_key")
+		log.Println("In send results")
+		log.Println("Received form ", form)
+		//fmt.Println("Receive get query ", form)
+
+		raceUUID, _ := uuid.FromString(form)
+
+		log.Println(form)
+
+		raceDetails, _ := models.Races(five.DB, qm.Where("race_id =?", raceUUID)).All()
+
+		log.Println("Got race details")
+
+		log.Println(raceDetails)
+
+		meetingDetails, _ := models.Meetings(five.DB, qm.Where("meeting_id =?", raceDetails[0].MeetingID)).All()
+
+		log.Println("Got meeting details")
+
+		allCompetitors, _ := models.Competitors(five.DB, qm.Where("race_id = ?", form)).All()
+
+		log.Println("Got competitor details")
+
+		compCount, _ := models.Competitors(five.DB, qm.Where("race_id = ?", form)).Count()
+
+		log.Println("Got comp count")
+
+		fmt.Println("Finished queries")
+
+		nanos := raceDetails[0].ClosingTime.UnixNano()
+		millis := int(nanos/1000000)
+
+		var compArr []Competitor
+
+		for i := 0; i < int(compCount); i++{
+			comp1 := Competitor {
+				PosNum: allCompetitors[i].Position,
+				Type: allCompetitors[i].Type,
+				Name: "Racer " + strconv.Itoa(i),
+			}
+
+			compArr = append(compArr, comp1)
+		}
+
+		/*comp1 := Competitor{
+			PosNum: 1,
+			Type: "Greyhound",
+		}
+
+		compArr := []Competitor{comp1}
+*/
+		race1 := Race {
+			Location : meetingDetails[0].MeetingName,
+			Competitors: compArr,
+			Close: millis,
+		}
+
+		c.JSON(200, race1)
 	}
 }
 

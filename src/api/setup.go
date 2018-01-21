@@ -30,11 +30,12 @@ func StartGin(five HighFive.HighFive) {
 	router.LoadHTMLGlob("web/templates/*")
 	router.Static("/static", "resources/static")
 	router.GET("/", mid.Index)
-	router.GET("/basic", mid.Basic)
+	router.GET("/races/:id", mid.ShowRace)
+	router.POST("/raceDetails", mid.GetRace(five))
 
 	router.GET("/getFive", mid.GetFive(five))
 	router.POST("/search", mid.SendResults(five))
-	router.GET("/receive", mid.ReceiveAjax)
+	router.GET("/receive", mid.ReceiveAjax(five))
 
 	router.Run("localhost:8080")
 }

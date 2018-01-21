@@ -691,7 +691,7 @@ func testCompetitorsSelect(t *testing.T) {
 }
 
 var (
-	competitorDBTypes = map[string]string{`CompetitorID`: `uuid`, `Position`: `integer`, `RaceID`: `uuid`, `Type`: `character`}
+	competitorDBTypes = map[string]string{`CompetitorID`: `uuid`, `Name`: `character`, `Position`: `integer`, `RaceID`: `uuid`, `Type`: `character`}
 	_                 = bytes.MinRead
 )
 

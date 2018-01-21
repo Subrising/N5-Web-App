@@ -25,6 +25,7 @@ type Race struct {
 	RaceID      string      `boil:"race_id" json:"race_id" toml:"race_id" yaml:"race_id"`
 	MeetingID   null.String `boil:"meeting_id" json:"meeting_id,omitempty" toml:"meeting_id" yaml:"meeting_id,omitempty"`
 	ClosingTime time.Time   `boil:"closing_time" json:"closing_time" toml:"closing_time" yaml:"closing_time"`
+	RaceType    string      `boil:"race_type" json:"race_type" toml:"race_type" yaml:"race_type"`
 
 	R *raceR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L raceL  `boil:"-" json:"-" toml:"-" yaml:"-"`
@@ -34,10 +35,12 @@ var RaceColumns = struct {
 	RaceID      string
 	MeetingID   string
 	ClosingTime string
+	RaceType    string
 }{
 	RaceID:      "race_id",
 	MeetingID:   "meeting_id",
 	ClosingTime: "closing_time",
+	RaceType:    "race_type",
 }
 
 // raceR is where relationships are stored.
@@ -50,8 +53,8 @@ type raceR struct {
 type raceL struct{}
 
 var (
-	raceColumns               = []string{"race_id", "meeting_id", "closing_time"}
-	raceColumnsWithoutDefault = []string{"meeting_id", "closing_time"}
+	raceColumns               = []string{"race_id", "meeting_id", "closing_time", "race_type"}
+	raceColumnsWithoutDefault = []string{"meeting_id", "closing_time", "race_type"}
 	raceColumnsWithDefault    = []string{"race_id"}
 	racePrimaryKeyColumns     = []string{"race_id"}
 )

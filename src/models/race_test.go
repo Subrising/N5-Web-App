@@ -1013,7 +1013,7 @@ func testRacesSelect(t *testing.T) {
 }
 
 var (
-	raceDBTypes = map[string]string{`ClosingTime`: `timestamp without time zone`, `MeetingID`: `uuid`, `RaceID`: `uuid`}
+	raceDBTypes = map[string]string{`ClosingTime`: `timestamp without time zone`, `MeetingID`: `uuid`, `RaceID`: `uuid`, `RaceType`: `character`}
 	_           = bytes.MinRead
 )
 

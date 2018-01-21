@@ -26,6 +26,7 @@ type Competitor struct {
 	RaceID       null.String `boil:"race_id" json:"race_id,omitempty" toml:"race_id" yaml:"race_id,omitempty"`
 	Position     int         `boil:"position" json:"position" toml:"position" yaml:"position"`
 	Type         string      `boil:"type" json:"type" toml:"type" yaml:"type"`
+	Name         null.String `boil:"name" json:"name,omitempty" toml:"name" yaml:"name,omitempty"`
 
 	R *competitorR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L competitorL  `boil:"-" json:"-" toml:"-" yaml:"-"`
@@ -36,11 +37,13 @@ var CompetitorColumns = struct {
 	RaceID       string
 	Position     string
 	Type         string
+	Name         string
 }{
 	CompetitorID: "competitor_id",
 	RaceID:       "race_id",
 	Position:     "position",
 	Type:         "type",
+	Name:         "name",
 }
 
 // competitorR is where relationships are stored.
@@ -52,8 +55,8 @@ type competitorR struct {
 type competitorL struct{}
 
 var (
-	competitorColumns               = []string{"competitor_id", "race_id", "position", "type"}
-	competitorColumnsWithoutDefault = []string{"race_id", "position", "type"}
+	competitorColumns               = []string{"competitor_id", "race_id", "position", "type", "name"}
+	competitorColumnsWithoutDefault = []string{"race_id", "position", "type", "name"}
 	competitorColumnsWithDefault    = []string{"competitor_id"}
 	competitorPrimaryKeyColumns     = []string{"competitor_id"}
 )
