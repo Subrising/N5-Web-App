@@ -9,7 +9,7 @@ To view the details of the race, click on the race number and a new page will lo
 
 Before running the N5 Application make sure you have installed the correct dependencies, programs and have correctly set up the database connection. If this is not done, erroneous results may occur.
 
-#####You have been warned /s.
+##### You have been warned /s.
 
 
 ### Prerequisites
@@ -39,16 +39,16 @@ Follow this guide to install and run the project.
 11. Run main.go in your IDE
 12. Open up a web browser and navigate to ```127.0.0.1:8080``` or ```localhost:8080```
 
-###And there you have it! You are now successfully running the application. 
+### And there you have it! You are now successfully running the application. 
 
 ## Navigating the web page information
 
-####Main Page
+#### Main Page
 On the main page that is loaded on ```127.0.0.1:8080``` or ```localhost:8080``` you will find the next five races with the smallest time remaining til closing in comparison to your current time. 
 
 It displays the race number, the race type, the race location, it's closing time, and the time remaining (in seconds) until the race is closed.
 
-###Race Details Page
+### Race Details Page
 
 To view the details of each race, click on the race number and a new page will load displaying the race information.
 
