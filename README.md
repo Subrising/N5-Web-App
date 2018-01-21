@@ -43,7 +43,7 @@ Follow this guide to install and run the project.
 
 ## Navigating the web page information
 
-#### Main Page
+### Main Page
 On the main page that is loaded on ```127.0.0.1:8080``` or ```localhost:8080``` you will find the next five races with the smallest time remaining til closing in comparison to your current time. 
 
 It displays the race number, the race type, the race location, it's closing time, and the time remaining (in seconds) until the race is closed.
