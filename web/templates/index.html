@@ -12,40 +12,126 @@
     <!-- Bootstrap styles -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <!-- Generic page styles -->
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://www.ladbrokes.com.au/css/global.css?_=d3c02f6fb0e79e9469c60cf52c68d340" type="text/css" media="all" charset="utf-8">
+    <link rel="stylesheet" href="https://www.ladbrokes.com.au/css/sub.css?_=1974fef97c6300ddc3c6f28b38087a0d" type="text/css" media="all" charset="utf-8">
+    <link rel="stylesheet" href="https://www.ladbrokes.com.au/css/page.css?_=3a0dbfdd19f5d45129dc2618d621c47b" type="text/css" media="all" charset="utf-8">
+    <link rel="stylesheet" href="https://www.ladbrokes.com.au/css/tipsy.css?_=09c68bc7de6a4f30762600f8286e8b08" type="text/css" media="all" charset="utf-8">
+    <link rel="stylesheet" href="https://www.ladbrokes.com.au/css/smoothness/jquery-ui-1.8.16.custom.css?_=45e9b922f4ceb05e6ff6ecbdc460f2c3" type="text/css" media="all" charset="utf-8">
 </head>
 <body>
-<div class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-fixed-top .navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="https://github.com/blueimp/jQuery-File-Upload">LadBrokes</a>
-        </div>
+<div class="betslip-slide">
+    <div class="betslip-slide-inner">
+
+<div id="topbar">
+    <div class="inner">
+        <div class="security"><span></span>Secured using 2048-bit encryption.</div>
+        <a id="join-url" href="/signup/" data-origin="top-bar">Join</a>
+        <a href="/blog/">Blog</a>
+        <a href="/contact-us/">Contact Us</a>
+        <div id="navbar-current-time" class="time">Sun 21 Jan - 9:59 PM<span> AEST</span></div>
     </div>
 </div>
-<div class="container">
-    <br>
-    <br>
+
+<div class="main-header">
+    <div class="inner">
+        <h1><a href="/" title="Australia's Online Bookmaker">Ladbrokes.com.au Online Bookmaker</a></h1>
+        <div id="userAuthentication">
+            <div id="login">
+                <div id="logincontrols" style="">
+                    <form id="form_users_login" name="form_users_login" method="post" action="/users/login/">
+                        <table cellspacing="0" cellpadding="0">
+                            <tbody><tr>
+                                <td colspan="">
+                                    <input id="userauth_username" value="" type="text" name="username" class="loginbox" placeholder="Username">
+                                    <input id="userauth_password" type="password" name="password" class="loginbox" placeholder="Password"><input id="recaptcha_challenge_field" name="recaptcha_challenge_field" type="hidden"><input id="recaptcha_response_field" name="recaptcha_response_field" type="hidden">
+                                    <input value="Login" type="submit" name="Login" class="logbut" title="">
+                                    <a href="/signup/" data-origin="header" title="Join Now" class="joinlink">Join Now</a>
+                                </td>
+                            </tr>
+                            <tr class="forgotpass">
+                                <td>
+                                    <div id="forgotpass">
+                                        <a href="/myaccount/forgottenusername/" title="Forgotten Username?">Forgotten username</a>or
+                                        <a href="/myaccount/forgottenpassword/" title="Forgotten Password?">forgotten password?</a>
+                                        <span class="error" id="auth-error"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody></table>
+                    </form>
+                </div>
+                <!--logincontrols-->
+                <div id="loggingin" style="display: none;">
+                    <strong>Please wait while you are logged in...</strong>
+                </div>
+                <div id="loggedin" style="display: none;">
+
+                    <div class="client-credit-offer"><a href="/myaccount/apply-for-credit/" class="user-auth-credit-offer rounded offerlink link yellow-gradient"><strong>Credit Offer:</strong> <span id="auth-credit-offer"></span></a></div>
+
+                    <div class="welcome"><strong>Welcome</strong> <span class="user-auth-name" id="auth-given-name"></span>&nbsp;(ID: <span class="user-auth-id" id="auth-user-id"></span>)&nbsp;[<a id="btn-logout" href="/logout/">Logout</a>]<a href="/myaccount/deposit/" class="auth-depositnow"><span>Deposit Now!</span></a></div>
+
+                    <div class="balance"><span class="hidedetails"><a href="/myaccount/deposit/" class="user-auth-balance"><strong>Balance:</strong> <span id="auth-balance"></span></a><a href="/myaccount/apply-for-credit/" class="user-auth-credit"><strong>Available Credit:</strong> <span id="auth-credit"></span></a><a href="/myaccount/lbcard/" class="user-auth-lbcard"><strong>Ladbrokes Card:</strong> <span id="auth-lbcard"></span></a><a href="/myaccount/bonusbets/" class="user-auth-bets"><strong>Bonus Bets:</strong> <span id="auth-freebet">Claim</span></a><a href="/myaccount/pendingbets/" class="user-auth-pending-bets"><strong>Pending Bets:</strong> <span id="auth-pending"></span></a></span><span class="hidecontrol"><a id="user-auth-details-toggle" href="#toggle-details">[Hide]</a></span></div>
+
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div id="pop-modal" style="display:none">
+            <div class="modal-header"></div>
+            <div class="modal-body">
+                <div class="content-error" style="display: none;"></div>
+                <div class="modal-content"></div>
+            </div>
+            <div class="clear"></div>
+            <a href="/signup/" data-origin="signup-modal" class="joinbanner">&nbsp;</a>
+        </div>
+
+    </div>
+    <!--inner-->
+</div>
+
+<div class="main-nav">
+    <div class="inner">
+        <a href="/" title="Ladbrokes.com.au Online Betting" class="but_home"><span>Ladbrokes Australia</span></a>
+        <a href="/racing/" title="Racing" class="but_racing">Racing</a>
+        <a href="/sports/" title="Sports" class="but_sports">Sports</a>
+        <a href="/live-betting/" title="Live Betting" class="but_live">Live Betting</a>
+        <a href="/perfect-round/" title="Perfect Round" class="but_perfectround">Perfect Round</a>
+        <a href="/promotions/" title="Promotions" class="but_promotions">Promotions</a>
+        <a href="/myaccount/" title="My Account" class="but_myacc none" style="display:none">My Account</a>
+        <a href="/how-to/" title="How To" class="but_how">How To</a>
+        <a href="/blog/" title="Ladbrokes Blog" class="but_blog">Blog</a>
+
+        <div class="but_betslip betslip-show">Betslip
+            <span class="betslip-counter">0</span>
+        </div>
+    </div>
+    <!--inner-->
+</div>
+
+        <div id="contentainer">
+            <div class="contentinner">
+
+
     <h1>N5 Web App</h1>
-    <br>
-    <br>
-<div id="result"></div>
-    <table id="raceTable" border="1" >
+
+<div class="widget bettingtable">
+    <table id="raceTable" class="odds horses" style="margin: 0px auto;">
         <thead>
-        <tr>
-            <th width="5%">S.no</th>
-            <th width="20%">Location</th>
-            <th width="20%">Race Type</th>
-            <th width="30%" class="closeTime">Closing Time</th>
-            <th class="timeLeft">Time remaining</th>
+        <tr class="row">
+            <th style="text-align: center;">Race Number</th>
+            <th style="text-align: center;">Location</th>
+            <th style="text-align: center;">Race Type</th>
+            <th class="closeTime" style="text-align: center;">Closing Time</th>
+            <th class="timeLeft" style="text-align: center;">Time remaining</th>
         </tr>
         </thead>
     </table>
-<div class="timer">00:00:00</div>
+</div>
+</div>
+    </div>
+
+    </div>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="../js/jquery-3.2.1.js"></script>
     <script src="../js/all_races.js"></script>

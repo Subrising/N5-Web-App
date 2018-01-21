@@ -22,6 +22,7 @@ type Race struct {
 	Location string `json:"location"`
 	Competitors []Competitor `json:"competitors"`
 	Close int `json:"close"`
+	CloseDate time.Time `json:"closeDate"`
 	RaceType string `json:"racetype"`
 	RaceID string `json:"id"`
 }
@@ -65,6 +66,7 @@ func NextFive(five HighFive.HighFive) func (c * gin.Context) {
 
 			race1 := Race{
 				RaceType: allRaces[i].RaceType,
+				CloseDate: allRaces[i].ClosingTime,
 				Close:       millis,
 				RaceID: allRaces[i].RaceID,
 			}
@@ -123,6 +125,7 @@ func GetRace(five HighFive.HighFive) func (c *gin.Context) {
 		race1 := Race {
 			Location : meetingDetails[0].MeetingName,
 			Competitors: compArr,
+			CloseDate: raceDetails[0].ClosingTime,
 			Close: millis,
 		}
 

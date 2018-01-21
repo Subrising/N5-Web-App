@@ -4,12 +4,15 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="https://www.ladbrokes.com.au/css/global.css?_=d3c02f6fb0e79e9469c60cf52c68d340" type="text/css" media="all" charset="utf-8">
-    <link rel="stylesheet" href="https://www.ladbrokes.com.au/css/index.css?_=7a275e2b6b1cd09722c8cce2ce479b80" type="text/css" media="all" charset="utf-8">
+    <link rel="stylesheet" href="https://www.ladbrokes.com.au/css/sub.css?_=1974fef97c6300ddc3c6f28b38087a0d" type="text/css" media="all" charset="utf-8">
+    <link rel="stylesheet" href="https://www.ladbrokes.com.au/css/page.css?_=3a0dbfdd19f5d45129dc2618d621c47b" type="text/css" media="all" charset="utf-8">
     <link rel="stylesheet" href="https://www.ladbrokes.com.au/css/tipsy.css?_=09c68bc7de6a4f30762600f8286e8b08" type="text/css" media="all" charset="utf-8">
     <link rel="stylesheet" href="https://www.ladbrokes.com.au/css/smoothness/jquery-ui-1.8.16.custom.css?_=45e9b922f4ceb05e6ff6ecbdc460f2c3" type="text/css" media="all" charset="utf-8">
 </head>
 <body>
 
+<div class="betslip-slide">
+    <div class="betslip-slide-inner">
 <div class="main-header">
     <div class="inner">
         <h1><a href="/" title="Australia's Online Bookmaker">Ladbrokes.com.au Online Bookmaker</a></h1>
@@ -79,14 +82,32 @@
 
     </div><!--inner-->
 </div>
+        <div class="main-nav">
+            <div class="inner">
+                <a href="/" title="Ladbrokes.com.au Online Betting" class="but_home"><span>Ladbrokes Australia</span></a>
+                <a href="/racing/" title="Racing" class="but_racing">Racing</a>
+                <a href="/sports/" title="Sports" class="but_sports">Sports</a>
+                <a href="/live-betting/" title="Live Betting" class="but_live">Live Betting</a>
+                <a href="/perfect-round/" title="Perfect Round" class="but_perfectround">Perfect Round</a>
+                <a href="/promotions/" title="Promotions" class="but_promotions">Promotions</a>
+                <a href="/myaccount/" title="My Account" class="but_myacc none" style="display:none">My Account</a>
+                <a href="/how-to/" title="How To" class="but_how">How To</a>
+                <a href="/blog/" title="Ladbrokes Blog" class="but_blog">Blog</a>
+
+                <div class="but_betslip betslip-show">Betslip
+                    <span class="betslip-counter">0</span>
+                </div>
+            </div>
+            <!--inner-->
+        </div>
+
+    <div id="contentainer">
+        <div class="contentinner">
 
 <div class="widget bettingtable">
     <div class="table-hdr">
-        <div class="extras">
-            <div class="quadrella-link"><a href="/racing/horses/mt-barker/46509939/quaddie" title="Show Quadrella">Quaddie</a></div>
-            <div class="quadrella-link earlyquad"><a href="/racing/horses/mt-barker/46509936/early-quaddie" title="Show EarlyQuad">EarlyQuad</a></div>
-        </div>
-        <div class="races-row">
+        <h1>Race Details</h1>
+        <div class="col-1-3">
             <div class="location-conditions">
                 <div class="weather">
                     <div class="fine" title="Weather Condition: Fine">Fine<span></span></div>
@@ -96,7 +117,7 @@
             </div>
             <div class="clear"></div>
         </div>
-        <div class="racedetails">
+        <div class="races-row" style="margin: 0px auto;">
             <div class="racedescription">
                 <div class="race-desc-number" id="location">Mt Barker Race 1</div>
                 <div class="race-desc-name" id="raceType">
@@ -104,7 +125,7 @@
                 </div>
             </div>
             <div class="race-timetogo">
-                <div class="ttg-clock"></div><abbr class="timeuntil ago ago-closes ago-togo" time="1516512900" suspend="1516512900">2h 35m</abbr>
+                <div class="ttg-clock"></div><abbr class="timeuntil ago" time="1516512900" suspend="1516512900" id="closingTime">Closing in <h3 id="closeTime"></h3></abbr>
             </div><!--race-timetogo-->
             <div class="race-status">
                 <div class="distance">
@@ -120,27 +141,25 @@
         </div><!--racedetails-->
         <div class="clear"></div>	</div>
 
-    <div class="bookmaker-race-comments">
-        <span>Race Comments:</span>
-        <div class="inner">
-            SCANDAL LASS has three placings from five runs this prep and likely to race off the speed, the one to beat. SWEET TALKIN' came on to finish just behind midfield at only start at Narrogin, include in exotics. PLANET FLOWER ran five lengths back from the winner last start at Albany and should run fitter for past attempts, outside hope. THROTTLE finished in the middle of the pack at only start at Albany, capable of getting into the money with a bit of luck.					</div>
-    </div><!--race-comments-->
-
-
 </div>
 
 <h3 id="location"></h3>
 <h3 id="closeTime"></h3>
 <div class="widget bettingtable">
-<table class="odds horses" id="raceTable" data-eventtype="racing" >
-    <thead>
-    <tr class="row">
-        <th class="entrant-title">Name</th>
-        <th >Position</th>
-        <th >Type</th>
-    </tr>
-    </thead>
-</table>
+    <table class="odds horses" id="raceTable" data-eventtype="racing" style="margin: 0px auto;">
+        <thead>
+        <tr class="races-row">
+            <th class="entrant-title">Name</th>
+            <th >Position</th>
+            <th >Type</th>
+        </tr>
+        </thead>
+    </table>
+</div>
+    </div>
+</div>
+
+</div>s
 </div>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script type="text/javascript" src="../js/race_details.js"></script>
