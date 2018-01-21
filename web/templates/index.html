@@ -7,59 +7,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <![endif]-->
     <meta charset="utf-8">
-    <title>jQuery File Upload Demo</title>
-    <meta name="description" content="File Upload widget with multiple file selection, drag&amp;drop support, progress bars, validation and preview images, audio and video for jQuery. Supports cross-domain, chunked and resumable file uploads and client-side image resizing. Works with any server-side platform (PHP, Python, Ruby on Rails, Java, Node.js, Go etc.) that supports standard HTML form file uploads.">
+    <title>N5 Web App</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap styles -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <!-- Generic page styles -->
     <link rel="stylesheet" href="../css/style.css">
-    <!-- blueimp Gallery styles -->
-    <link rel="stylesheet" href="//blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
-    <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
-    <link rel="stylesheet" href="../css/jquery.fileupload.css">
-    <link rel="stylesheet" href="../css/jquery.fileupload-ui.css">
-    <!-- CSS adjustments for browsers with JavaScript disabled -->
-    <noscript><link rel="stylesheet" href="../css/jquery.fileupload-noscript.css"></noscript>
-    <noscript><link rel="stylesheet" href="../css/jquery.fileupload-ui-noscript.css"></noscript>
 </head>
 <body>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
-<script src="../js/vendor/jquery.ui.widget.js"></script>
-<!-- The Templates plugin is included to render the upload/download listings -->
-<script src="//blueimp.github.io/JavaScript-Templates/js/tmpl.min.js"></script>
-<!-- The Load Image plugin is included for the preview images and image resizing functionality -->
-<script src="//blueimp.github.io/JavaScript-Load-Image/js/load-image.all.min.js"></script>
-<!-- The Canvas to Blob plugin is included for image resizing functionality -->
-<script src="//blueimp.github.io/JavaScript-Canvas-to-Blob/js/canvas-to-blob.min.js"></script>
-<!-- Bootstrap JS is not required, but included for the responsive demo navigation -->
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-<!-- blueimp Gallery script -->
-<script src="//blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js"></script>
-<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
-<script src="../js/jquery.iframe-transport.js"></script>
-<!-- The basic File Upload plugin -->
-<script src="../js/jquery.fileupload.js"></script>
-<!-- The File Upload processing plugin -->
-<script src="../js/jquery.fileupload-process.js"></script>
-<!-- The File Upload image preview & resize plugin -->
-<script src="../js/jquery.fileupload-image.js"></script>
-<!-- The File Upload audio preview plugin -->
-<script src="../js/jquery.fileupload-audio.js"></script>
-<!-- The File Upload video preview plugin -->
-<script src="../js/jquery.fileupload-video.js"></script>
-<!-- The File Upload validation plugin -->
-<script src="../js/jquery.fileupload-validate.js"></script>
-<!-- The File Upload user interface plugin -->
-<script src="../js/jquery.fileupload-ui.js"></script>
-<!-- The main application script -->
-<script src="../js/main.js"></script>
-<script src="../js/jquery-3.2.1.js"></script>
-<!-- The XDomainRequest Transport is included for cross-domain file deletion for IE 8 and IE 9 -->
-<!--[if (gte IE 8)&(lt IE 10)]>
-<script src="../js/cors/jquery.xdr-transport.js"></script>
-<![endif]-->
 <div class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -68,176 +23,31 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="https://github.com/blueimp/jQuery-File-Upload">SmartEye</a>
+            <a class="navbar-brand" href="https://github.com/blueimp/jQuery-File-Upload">LadBrokes</a>
         </div>
     </div>
 </div>
 <div class="container">
     <br>
     <br>
-    <h1>SmartEye File Upload</h1>
+    <h1>N5 Web App</h1>
     <br>
     <br>
-    <!-- The file upload form used as target for the file upload widget -->
-    <form id="fileupload" action="/upload" method="POST" enctype="multipart/form-data" multiple>
-
-        <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
-        <div class="row fileupload-buttonbar">
-            <div class="col-lg-7">
-                <!-- The fileinput-button span is used to style the file input field as button -->
-                <span class="btn btn-success fileinput-button">
-                    <input id="filegg" type="file" name="files[]" multiple>
-                </span>
-                <button type="submit" class="btn btn-primary start">
-                    <i class="glyphicon glyphicon-upload"></i>
-                    <span>Start upload</span>
-                </button>
-                <button type="reset" class="btn btn-warning cancel">
-                    <i class="glyphicon glyphicon-ban-circle"></i>
-                    <span>Cancel upload</span>
-                </button>
-                <button type="button" class="btn btn-danger delete">
-                    <i class="glyphicon glyphicon-trash"></i>
-                    <span>Delete</span>
-                </button>
-                <!-- The global file processing state -->
-                <span class="fileupload-process"></span>
-            </div>
-            <!-- The global progress state -->
-            <div class="col-lg-5 fileupload-progress fade">
-                <!-- The global progress bar -->
-                <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
-                    <div class="progress-bar progress-bar-success" style="width:0%;"></div>
-                </div>
-                <!-- The extended global progress state -->
-                <div class="progress-extended">&nbsp;</div>
-            </div>
-        </div>
-        <!-- The table listing the files available for upload/download -->
-        <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
-    </form>
-    <br>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">Upload Notes</h3>
-        </div>
-        <div class="panel-body">
-            <ul>
-                <li>The maximum file size for uploads is <strong>10 MB</strong></li>
-                <li>Only image files or PDF formats accepted(<strong>JPG, GIF, PNG, PDF</strong>)</li>
-                <li>You can <strong>drag &amp; drop</strong> files from your desktop on this webpage</li>
-                <li>Built with the <a href="http://getbootstrap.com/">Bootstrap</a> CSS framework and Icons from <a href="http://glyphicons.com/">Glyphicons</a>.</li>
-            </ul>
-        </div>
-    </div>
-</div>
-
-<form id="dbsearch" class="navbar-form" role="search">
-    <div class="input-group">
-        <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
-        <div class="input-group-btn">
-            <button id="searchbtn" class="btn btn-default" type="button"><i class="glyphicon glyphicon-search"></i></button>
-        </div>
-    </div>
-</form>
 <div id="result"></div>
     <table id="raceTable" border="1" >
         <thead>
         <tr>
             <th width="5%">S.no</th>
             <th width="20%">Location</th>
-            <th width="20%">Competitors</th>
+            <th width="20%">Race Type</th>
             <th width="30%" class="closeTime">Closing Time</th>
+            <th class="timeLeft">Time remaining</th>
         </tr>
         </thead>
     </table>
 <div class="timer">00:00:00</div>
-<script>
-    $( document ).ready(function(){
-        //Perform Ajax request.
-        $.ajax({
-            url: '/receive',
-            type: 'GET',
-            dataType: 'JSON',
-            success: function (response){
-                console.log(response);
-                var len = response["races"].length;
-                console.log("race length =" + len);
-                var races = response["races"];
-                for (var i = 0; i < len; i++){
-
-                    var id = i;
-                    var location = response["location"];
-                    console.log(location);
-                   // var compNum = races[i]["competitors"].length;
-                    //console.log(compNum);
-                    var close = races[i]["close"];
-                    console.log(close);
-
-                    close = close - Math.round((new Date()).getTime());
-
-                    close = Math.floor(close / 1000);
-
-                    var tr_str = "<tr id='faded'>" +
-                            "<td align='center' id='race_" + id + "'><a href='/races/" + races[i]["id"] + "'>" + id + "</a></td>" +
-                            "<td align='center'>" + location + "</td>" +
-                            "<td align='center'></td>" + "" +
-                            "<td align='center' class='timer'>" + close + "</td>" + "</tr>";
-
-                    $("#raceTable").append(tr_str);
-                }
-                setTimers();
-            }
-        })});
-
-function setTimers() {
-    console.log("yo");
-    var table = document.getElementById("raceTable");
-    console.log("Table length = " + table);
-
-        // Update the count down every 1 second
-
-        setInterval(
-                function () {
-                    for (var i = 1, row; row = table.rows[i], i < table.rows.length; i++) {
-
-                        var endDate = row.cells[3];
-                        //var countDownDate = new Date(endDate.innerHTML.replace(/-/g, "/")).getTime();
-                        var countDown = row.cells[3].textContent;
-                        console.log("countDown = " + countDown);
-                    // Find the distance between now an the count down date
-                        var distance = parseInt(countDown) - 1;
-
-                    // Display the result in the element
-                        endDate.innerText = distance;
-
-                        console.log("CD = " + endDate.innerHTML);
-
-                    //If the count down is finished, write some text
-                        if (distance < 0) {
-                            //endDate.innerText = "Bid closed";
-                            row.remove();
-                           // clearInterval(x);
-                        }
-                    }}, 1000);
-}
-</script>
-<script>
-    jQuery('#searchbtn').click( function(e){
-        var eNameData = $("#srch-term").val();
-        var dataToSend = "searchKey=" + eNameData;
-        console.log(dataToSend)
-        $.ajax({
-            url: '/search',
-            method: 'POST',
-            data : { search_key: eNameData},
-            success : function (data) {
-                console.log(data);
-                console.log(data.message.length);
-                $('#result').html(data.message[2]);
-            },
-        });
-    });
-</script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="../js/jquery-3.2.1.js"></script>
+    <script src="../js/all_races.js"></script>
 </body>
 </html>

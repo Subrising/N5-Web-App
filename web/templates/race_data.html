@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,10 +7,8 @@
     <link rel="stylesheet" href="https://www.ladbrokes.com.au/css/index.css?_=7a275e2b6b1cd09722c8cce2ce479b80" type="text/css" media="all" charset="utf-8">
     <link rel="stylesheet" href="https://www.ladbrokes.com.au/css/tipsy.css?_=09c68bc7de6a4f30762600f8286e8b08" type="text/css" media="all" charset="utf-8">
     <link rel="stylesheet" href="https://www.ladbrokes.com.au/css/smoothness/jquery-ui-1.8.16.custom.css?_=45e9b922f4ceb05e6ff6ecbdc460f2c3" type="text/css" media="all" charset="utf-8">
-
 </head>
 <body>
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
 <div class="main-header">
     <div class="inner">
@@ -137,106 +135,26 @@
 <table class="odds horses" id="raceTable" data-eventtype="racing" >
     <thead>
     <tr class="row">
-        <th width="20%" class="entrant-title">Name</th>
-        <th width="20%">Position</th>
-        <th width="20%">Type</th>
+        <th class="entrant-title">Name</th>
+        <th >Position</th>
+        <th >Type</th>
     </tr>
     </thead>
 </table>
 </div>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript" src="../js/race_details.js"></script>
 <script>
     $(document).one('ready', (function(){
-
-      //  var url = $(location).attr("href").split('/');
-      //  console.log("url length =", url.length);
-      //  console.log(url[url.length-1])
-
-      //  var lastElement = url[url.length-1];
-        //$(location).attr("href").split('/').pop()
-
         //Perform Ajax request.
         $.ajax({
             url: '/raceDetails',
             type: 'POST',
             data : { search_key: $(location).attr("href").split('/').pop() },
             dataType: 'JSON',
-            success: function (response){
-                console.log(response);
-                var updateLoc = document.getElementById("location");
-                updateLoc.innerText = response["location"];
-
-                var updateTime = document.getElementById("closeTime");
-                var close = response["close"];
-                console.log(close);
-
-                var dt=eval(close*1000);
-                var myDate = new Date(dt);
-
-                var raceRun = document.getElementById("outcome_ts");
-                raceRun.innerText = myDate;
-
-                close = close - Math.round((new Date()).getTime());
-
-                close = Math.floor(close / 1000);
-                updateTime.innerText = close;
-
-                var len = response["competitors"].length;
-                console.log("Competitors total =" + len);
-                var competitors = response["competitors"];
-
-                var updateType = document.getElementById("raceType");
-                updateType.innerText = competitors[0]["type"];
-
-                for (var i = 0; i < len; i++){
-
-                    var position = competitors[i]["position"];
-                    console.log(position);
-                    var type = competitors[i]["type"];
-                    console.log(type);
-                    var name = competitors[i]["name"];
-
-                    var tr_str = "<tr class='row'>" +
-                            "<td align='center'>" + name  + "</td>" +
-                            "<td align='center'>" + position + "</td>" +
-                            "<td align='center'>" + type + "</td></tr>";
-
-                    $("#raceTable").append(tr_str);
-                }
-                setTimers();
-            }
-        })}));
+            success: function (response) {
+                showDetails(response);
+            }})}));
 </script>
-<script>
-    function setTimers() {
-        console.log("yo");
-        var table = document.getElementById("closeTime");
-        console.log("Table length = " + table.innerHTML);
-
-        // Update the count down every 1 second
-
-       // var timeToRun = close = close - Math.round((new Date()).getTime());
-
-        var x = setInterval(
-                function () {
-                        var countDown = table.innerText;
-                        console.log("countDown = " + countDown);
-                        // Find the distance between now an the count down date
-                        var distance = parseInt(countDown) - 1;
-
-                        // Display the result in the element
-                        table.innerText = distance;
-
-                        console.log("CD = " + table.innerHTML);
-
-                        //If the count down is finished, write some text
-                        if (distance <= 0) {
-                            clearInterval(x);
-                            var raceStatus = document.getElementById("Open");
-                            raceStatus.innerText = "Closed";
-                        }
-                    }, 1000);
-    }
-</script>
-
 </body>
 </html>

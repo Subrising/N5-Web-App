@@ -21,21 +21,21 @@ func ConfigRuntime() {
 	fmt.Printf("Running with %d CPUs\n", nuCPU)
 }
 
-
 // Sets up API files and routing functions
 func StartGin(five HighFive.HighFive) {
 	gin.SetMode(gin.DebugMode)
 
 	router := gin.New()
+
+	// Sets up server files and paths
 	router.LoadHTMLGlob("web/templates/*")
-	router.Static("/static", "resources/static")
+	router.Static("/js", "./web/js")
+
 	router.GET("/", mid.Index)
 	router.GET("/races/:id", mid.ShowRace)
-	router.POST("/raceDetails", mid.GetRace(five))
+	router.GET("/receive", mid.NextFive(five))
 
-	router.GET("/getFive", mid.GetFive(five))
-	router.POST("/search", mid.SendResults(five))
-	router.GET("/receive", mid.ReceiveAjax(five))
+	router.POST("/raceDetails", mid.GetRace(five))
 
 	router.Run("localhost:8080")
 }

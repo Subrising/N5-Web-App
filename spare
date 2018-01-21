@@ -1,0 +1,158 @@
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script>
+  /*  $(document).one('ready', (function(){
+        //Perform Ajax request.
+        $.ajax({
+            url: '/raceDetails',
+            type: 'POST',
+            data : { search_key: $(location).attr("href").split('/').pop() },
+            dataType: 'JSON',
+            success: function (response){
+                showDetails(response);
+                console.log(response);
+                var updateLoc = document.getElementById("location");
+                updateLoc.innerText = response["location"];
+
+                var updateTime = document.getElementById("closeTime");
+                var close = response["close"];
+                console.log(close);
+
+                var dt=eval(close*1000);
+                var myDate = new Date(dt);
+
+                var raceRun = document.getElementById("outcome_ts");
+                raceRun.innerText = myDate;
+
+                close = close - Math.round((new Date()).getTime());
+
+                close = Math.floor(close / 1000);
+                updateTime.innerText = close;
+
+                var len = response["competitors"].length;
+                console.log("Competitors total =" + len);
+                var competitors = response["competitors"];
+
+                var updateType = document.getElementById("raceType");
+                updateType.innerText = competitors[0]["type"];
+
+                for (var i = 0; i < len; i++){
+
+                    var position = competitors[i]["position"];
+                    console.log(position);
+                    var type = competitors[i]["type"];
+                    console.log(type);
+                    var name = competitors[i]["name"];
+
+                    var tr_str = "<tr class='row'>" +
+                            "<td align='center'>" + name  + "</td>" +
+                            "<td align='center'>" + position + "</td>" +
+                            "<td align='center'>" + type + "</td></tr>";
+
+                    $("#raceTable").append(tr_str);
+                }
+                setTimers();
+
+            }
+        })}));
+*/
+</script>
+<script>
+    /*
+    function setTimers() {
+        console.log("yo");
+        var table = document.getElementById("closeTime");
+        console.log("Table length = " + table.innerHTML);
+
+        var x = setInterval(
+                function () {
+                        var countDown = table.innerText;
+                        console.log("countDown = " + countDown);
+                        // Find the distance between now an the count down date
+                        var distance = parseInt(countDown) - 1;
+
+                        // Display the result in the element
+                        table.innerText = distance;
+
+                        console.log("CD = " + table.innerHTML);
+
+                        //If the count down is finished, write some text
+                        if (distance <= 0) {
+                            clearInterval(x);
+                            var raceStatus = document.getElementById("Open");
+                            raceStatus.innerText = "Closed";
+                        }
+                    }, 1000);
+    }*/
+</script>
+
+<script>
+    $( document ).ready(function(){
+        //Perform Ajax request.
+        $.ajax({
+            url: '/receive',
+            type: 'GET',
+            dataType: 'JSON',
+            success: function (response){
+                console.log(response);
+                var len = response["races"].length;
+                console.log("race length =" + len);
+                var races = response["races"];
+                for (var i = 0; i < len; i++){
+
+                    var id = i;
+                    var location = response["location"];
+                    console.log(location);
+                   // var compNum = races[i]["competitors"].length;
+                    //console.log(compNum);
+                    var close = races[i]["close"];
+                    console.log(close);
+
+                    close = close - Math.round((new Date()).getTime());
+
+                    close = Math.floor(close / 1000);
+
+                    var tr_str = "<tr id='faded'>" +
+                            "<td align='center' id='race_" + id + "'><a href='/races/" + races[i]["id"] + "'>" + id + "</a></td>" +
+                            "<td align='center'>" + location + "</td>" +
+                            "<td align='center'></td>" + "" +
+                            "<td align='center' class='timer'>" + close + "</td>" + "</tr>";
+
+                    $("#raceTable").append(tr_str);
+                }
+                setTimers();
+            }
+        })});
+
+function setTimers() {
+    console.log("yo");
+    var table = document.getElementById("raceTable");
+    console.log("Table length = " + table);
+
+        // Update the count down every 1 second
+
+        setInterval(
+                function () {
+                    for (var i = 1, row; row = table.rows[i], i < table.rows.length; i++) {
+
+                        var endDate = row.cells[3];
+                        //var countDownDate = new Date(endDate.innerHTML.replace(/-/g, "/")).getTime();
+                        var countDown = row.cells[3].textContent;
+                        console.log("countDown = " + countDown);
+                    // Find the distance between now an the count down date
+                        var distance = parseInt(countDown) - 1;
+
+                    // Display the result in the element
+                        endDate.innerText = distance;
+
+                        console.log("CD = " + endDate.innerHTML);
+
+                    //If the count down is finished, write some text
+                        if (distance < 0) {
+                            //endDate.innerText = "Bid closed";
+                            row.remove();
+                           // clearInterval(x);
+                        }
+                    }}, 1000);
+}
+</script>

@@ -11,7 +11,7 @@ type HighFive struct {
 	TX        *sql.Tx
 }
 
-// Creates a new HighFive object using a given database service and Google Cloud Vision API service
+// Creates a new HighFive object using a given database service
 func NewHighFive(db *sql.DB) (*HighFive, error) {
 	return &HighFive{
 		DB: db,

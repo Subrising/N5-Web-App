@@ -11,7 +11,7 @@ import (
 	"HighFive"
 )
 
-
+// Database struct for connecting
 type DatabaseConfig struct {
 	Host       string
 	DBName     string
@@ -24,10 +24,12 @@ var (
 	dbConfig          DatabaseConfig
 )
 
+// Starts program
 func main() {
 	runFive()
 }
 
+// Initialises database and creates a HighFive object which is the middleware. API is then started.
 func runFive() {
 	db := initDB()
 
@@ -39,6 +41,7 @@ func runFive() {
 	api.StartAPI(*five)
 }
 
+// Sets up database
 func initDB() *sql.DB {
 	dbConfig.DBUser = "user"
 	dbConfig.DBPassword ="password"
@@ -63,7 +66,6 @@ func initDB() *sql.DB {
 }
 
 func (d DatabaseConfig) SSLMode() string {
-	// Enable by default
 	if d.NoSSL == true {
 		return "disable"
 	}

@@ -9,8 +9,8 @@ import (
 	"strconv"
 )
 
+// Creates initial database entries for the Next 5 App
 func (five *HighFive) InitData() (error){
-	log.Println("Yo")
 	initMeeting := &models.Meeting{
 		MeetingName: "Gold Coast",
 	}
@@ -20,13 +20,12 @@ func (five *HighFive) InitData() (error){
 		panic(err)
 	}
 
-	log.Println("Yo 2")
+	// Inserts 5 races with different times and race types
 	five.AddRace(initMeeting, "Greyhound", 1 * 10000000000)
 	five.AddRace(initMeeting, "Harness", 2 * 10000000000)
 	five.AddRace(initMeeting, "Thoroughbred", 3 * 10000000000)
 	five.AddRace(initMeeting, "Greyhound", 4 * 10000000000)
 	five.AddRace(initMeeting, "Harness", 5 * 10000000000)
-	log.Println("Yo 3")
 
 	if err != nil {
 		log.Println("Insert error = ", err)
@@ -36,15 +35,13 @@ func (five *HighFive) InitData() (error){
 	return nil
 }
 
+// Function to add races to the database
 func (five *HighFive) AddRace(meeting *models.Meeting, raceType string, addedTime int) {
-	log.Println("Race yo 1")
+	// Gets and sets time for race
 	now := time.Now().UTC()
-	log.Println("Added time = ",  time.Duration(addedTime))
-
 	timeAdd := time.Duration(addedTime)
-
 	now.Add(timeAdd)
-	
+
 	race := &models.Race {
 		MeetingID: null.StringFrom(meeting.MeetingID),
 		RaceType: raceType,
@@ -52,15 +49,15 @@ func (five *HighFive) AddRace(meeting *models.Meeting, raceType string, addedTim
 	}
 
 	race.Insert(five.DB)
-	log.Println("Race yo 3")
 
+	// Adds competitors to each of the races
 	for i := 1; i < 5; i++ {
 		name := "Racer " + strconv.Itoa(i)
 		five.AddCompetitor(race, name)
 	}
-	log.Println("Race yo 4")
 }
 
+// Function creating competitors for each of the races
 func (five *HighFive) AddCompetitor(race *models.Race, name string) {
 	competitor := &models.Competitor {
 		RaceID: null.StringFrom(race.RaceID),
